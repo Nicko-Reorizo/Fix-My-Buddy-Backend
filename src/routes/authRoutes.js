@@ -5,6 +5,7 @@ import { generateOpaqueToken, hashPassword, hashToken, verifyPassword } from '..
 import { isEmail, normalizePhone } from '../utils/validation.js';
 import { clearSession, createRateLimiter, createSession, formatUser } from '../middleware/security.js';
 
+// Customer and mechanic workspaces share email/password authentication and session cookies.
 // Inject database/session operations so HTTP regressions can run without PostgreSQL.
 export function createAuthRouter({ role: requiredRole, runQuery = query, transaction = withTransaction, session = createSession } = {}) {
   const router = Router();
