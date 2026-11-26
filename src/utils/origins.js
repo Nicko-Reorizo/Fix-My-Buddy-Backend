@@ -14,9 +14,9 @@ export function isAllowedOrigin(origin, req) {
   const parsed = parseOrigin(origin);
   if (!parsed) return false;
   const configured = (process.env.FRONTEND_ORIGIN || '').split(',').map(value => parseOrigin(value.trim())?.origin);
-  if (configured.includes(parsed.origin)) return true;
-
   const production = process.env.NODE_ENV === 'production';
+  const knownProductionFrontendOrigins = ['https://fixmybuddy.vercel.app'];
+  if (configured.includes(parsed.origin) || (production && knownProductionFrontendOrigins.includes(parsed.origin))) return true;
   // Browser Host identifies the actual request destination. Forwarded host/proto
   // headers may be supplied by clients and must not expand the origin allowlist.
   const host = req?.headers?.host;
